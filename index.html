@@ -1,16 +1,531 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="utf-8">
-	<title>Website Template</title>
-	<link rel="stylesheet" href="./assets/css/styles.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Zootopia Times</title>
+<link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1008;
+    --paper: #f5ecd7;
+    --aged: #e8d9b5;
+    --accent: #8b2e00;
+    --mid: #5a3e1b;
+    --light-rule: #c4a96e;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #c8b99a;
+    font-family: 'Libre Baskerville', Georgia, serif;
+    color: var(--ink);
+    padding: 20px;
+  }
+
+  .newspaper {
+    max-width: 980px;
+    margin: 0 auto;
+    background: var(--paper);
+    background-image: 
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    box-shadow: 0 4px 40px rgba(0,0,0,0.4), inset 0 0 80px rgba(139,100,20,0.1);
+    padding: 0;
+  }
+
+  /* HEADER */
+  .header {
+    text-align: center;
+    padding: 24px 30px 12px;
+    border-bottom: 3px double var(--light-rule);
+  }
+
+  .header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    color: var(--mid);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .masthead {
+    font-family: 'UnifrakturMaguntia', cursive;
+    font-size: 72px;
+    line-height: 1;
+    color: var(--ink);
+    letter-spacing: -1px;
+    text-shadow: 2px 2px 0 rgba(139,46,0,0.15);
+  }
+
+  .tagline {
+    font-family: 'Libre Baskerville', serif;
+    font-style: italic;
+    font-size: 12px;
+    color: var(--mid);
+    letter-spacing: 0.15em;
+    margin-top: 4px;
+    margin-bottom: 10px;
+  }
+
+  .edition-bar {
+    display: flex;
+    justify-content: space-between;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--mid);
+    border-top: 1px solid var(--light-rule);
+    border-bottom: 1px solid var(--light-rule);
+    padding: 4px 0;
+    margin-top: 8px;
+  }
+
+  /* HEADLINE BANNER */
+  .headline-banner {
+    text-align: center;
+    padding: 18px 30px 10px;
+    border-bottom: 2px solid var(--ink);
+  }
+
+  .kicker {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--accent);
+    margin-bottom: 6px;
+  }
+
+  .main-headline {
+    font-family: 'Playfair Display', serif;
+    font-size: 52px;
+    font-weight: 900;
+    line-height: 1.05;
+    color: var(--ink);
+  }
+
+  .main-headline em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .deck {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 17px;
+    color: var(--mid);
+    margin-top: 8px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.5;
+  }
+
+  /* MAIN CONTENT GRID */
+  .content-area {
+    display: grid;
+    grid-template-columns: 1fr 2px 1.6fr 2px 1fr;
+    gap: 0;
+    padding: 0 30px 30px;
+  }
+
+  .col-divider {
+    background: var(--light-rule);
+    margin: 20px 12px 0;
+  }
+
+  .col { padding-top: 20px; }
+
+  /* ARTICLE ELEMENTS */
+  .col-head {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 8px;
+    color: var(--ink);
+  }
+
+  .col-head.large {
+    font-size: 26px;
+  }
+
+  .col-head em { font-style: italic; }
+
+  .byline {
+    font-size: 9.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--mid);
+    border-top: 1px solid var(--light-rule);
+    border-bottom: 1px solid var(--light-rule);
+    padding: 3px 0;
+    margin-bottom: 8px;
+  }
+
+  .body-text {
+    font-size: 12.5px;
+    line-height: 1.75;
+    color: var(--ink);
+    text-align: justify;
+    hyphens: auto;
+  }
+
+  .body-text p + p {
+    text-indent: 1.2em;
+    margin-top: 0;
+  }
+
+  .drop-cap::first-letter {
+    font-family: 'Playfair Display', serif;
+    font-size: 52px;
+    font-weight: 900;
+    float: left;
+    line-height: 0.8;
+    margin: 4px 6px 0 0;
+    color: var(--accent);
+  }
+
+  /* IMAGE */
+  .img-block {
+    margin: 14px 0 8px;
+  }
+
+  .img-placeholder {
+    width: 100%;
+    background: linear-gradient(135deg, #d4c4a0, #c2ae88, #b89e72);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 52px;
+    border: 1px solid var(--light-rule);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .img-placeholder::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 10px,
+      rgba(255,255,255,0.05) 10px,
+      rgba(255,255,255,0.05) 20px
+    );
+  }
+
+  .caption {
+    font-style: italic;
+    font-size: 10px;
+    color: var(--mid);
+    line-height: 1.4;
+    margin-top: 4px;
+    border-top: 1px solid var(--light-rule);
+    padding-top: 4px;
+  }
+
+  /* PULL QUOTE */
+  .pull-quote {
+    border-top: 2px solid var(--ink);
+    border-bottom: 2px solid var(--ink);
+    margin: 14px 0;
+    padding: 10px 0;
+    text-align: center;
+  }
+
+  .pull-quote p {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 14.5px;
+    line-height: 1.5;
+    color: var(--accent);
+  }
+
+  .pull-quote cite {
+    display: block;
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--mid);
+    margin-top: 6px;
+    font-style: normal;
+  }
+
+  /* BRIEFS BOX */
+  .briefs-box {
+    border: 1px solid var(--light-rule);
+    padding: 10px 12px;
+    margin-top: 16px;
+    background: rgba(196,169,110,0.1);
+  }
+
+  .briefs-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    text-align: center;
+    border-bottom: 1px solid var(--light-rule);
+    padding-bottom: 5px;
+    margin-bottom: 8px;
+    color: var(--accent);
+  }
+
+  .brief-item {
+    font-size: 11px;
+    line-height: 1.55;
+    padding-bottom: 6px;
+    margin-bottom: 6px;
+    border-bottom: 1px dotted var(--light-rule);
+    color: var(--ink);
+  }
+
+  .brief-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+
+  .brief-item strong {
+    font-weight: 700;
+    display: block;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--mid);
+  }
+
+  /* RULE */
+  hr.section-rule {
+    border: none;
+    border-top: 1px solid var(--light-rule);
+    margin: 14px 0;
+  }
+
+  /* BOTTOM STRIP */
+  .bottom-strip {
+    text-align: center;
+    border-top: 3px double var(--light-rule);
+    padding: 8px 30px;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--mid);
+  }
+
+  /* SECTION LABEL */
+  .section-label {
+    font-size: 8.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--accent);
+    font-weight: 700;
+    margin-bottom: 5px;
+  }
+
+  /* WEATHER BOX */
+  .weather-box {
+    border: 1px solid var(--light-rule);
+    padding: 8px 10px;
+    font-size: 10px;
+    text-align: center;
+    background: rgba(196,169,110,0.08);
+  }
+
+  .weather-box .w-icon { font-size: 28px; display: block; }
+  .weather-box .w-temp { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; }
+  .weather-box .w-label { color: var(--mid); letter-spacing: 0.1em; text-transform: uppercase; font-size: 9px; }
+
+  .ad-box {
+    border: 2px solid var(--ink);
+    padding: 10px;
+    text-align: center;
+    margin-top: 14px;
+    background: var(--aged);
+  }
+  .ad-box .ad-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .ad-box .ad-sub {
+    font-style: italic;
+    font-size: 10px;
+    color: var(--mid);
+    margin-top: 3px;
+  }
+  .ad-box .ad-icon { font-size: 30px; margin: 5px 0; display: block; }
+</style>
 </head>
 <body>
 
-	<h1>Website Template</h1>
-	<p>Fork and use this template repo (a.k.a. "boilerplate") for any web project</p>
-	<img src="assets/img/cat.jpg" alt="">
+<div class="newspaper">
 
-	<script src="./assets/js/main.js"></script>
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-top">
+      <span>ESTABLISHED 2016 · ZOOTOPIA CITY</span>
+      <span>PRICE: 2 CARROTS OR 50¢</span>
+    </div>
+    <div class="masthead">The Zootopia Times</div>
+    <div class="tagline">"In Zootopia, Anyone Can Be Anything — And We Report All of It"</div>
+    <div class="edition-bar">
+      <span>Vol. CCXII &nbsp;·&nbsp; No. 47</span>
+      <span>Evening Edition</span>
+      <span>March 4th, 2026 &nbsp;·&nbsp; Zootopia, Z.C.</span>
+    </div>
+  </div>
+
+  <!-- MAIN HEADLINE -->
+  <div class="headline-banner">
+    <div class="kicker">🦊 Breaking News · Zootopia Sequel Confirmed</div>
+    <div class="main-headline">WILDE & HOPPS RETURN:<br><em>Zootopia 2</em> Hits Theatres</div>
+    <div class="deck">The most celebrated detective duo in ZPD history takes on a new conspiracy stretching from Sahara Square to the Rainforest District — and nothing will ever be the same.</div>
+  </div>
+
+  <!-- CONTENT GRID -->
+  <div class="content-area">
+
+    <!-- LEFT COLUMN -->
+    <div class="col">
+      <div class="section-label">Weather</div>
+      <div class="weather-box">
+        <span class="w-icon">🌤️</span>
+        <div class="w-temp">74°F</div>
+        <div class="w-label">Savanna Central</div>
+        <hr style="border:none;border-top:1px solid var(--light-rule);margin:5px 0">
+        <div style="font-size:9px;color:var(--mid);">Tundratown: 12°F · Rainforest: 89°F · Sahara Sq: 102°F</div>
+      </div>
+
+      <hr class="section-rule" style="margin-top:14px">
+
+      <div class="col-head">ZPD Reports Record-Low Predator Crime Rate</div>
+      <div class="byline">By Chester Vole · City Desk</div>
+      <div class="body-text">
+        <p class="drop-cap">Chief Bogo announced yesterday that Zootopia's Predator District recorded its lowest crime rate since the city's founding, attributing the milestone to expanded community policing and Officer Hopps's innovative mediation program.</p>
+        <p>"We have come a long way," Bogo said from the podium, adjusting his reading glasses with a massive hoof. "This city proves every single day that species don't define destiny."</p>
+        <p>The program, piloted last spring, pairs predator and prey officers in joint neighbourhood patrols, fostering trust at the grassroots level.</p>
+      </div>
+
+      <div class="pull-quote">
+        <p>"Try everything — and then try again. That's Zootopia."</p>
+        <cite>— Officer Judy Hopps, ZPD</cite>
+      </div>
+
+      <div class="briefs-box">
+        <div class="briefs-title">City Briefs</div>
+        <div class="brief-item">
+          <strong>🦘 Transit</strong>
+          The Zootopia Metro's new Tundratown–Rainforest express line opens Friday, cutting travel time by 40 minutes.
+        </div>
+        <div class="brief-item">
+          <strong>🐻 City Hall</strong>
+          Mayor Lionheart's successor, Mayor Gazelle, signs the landmark Habitat Equality Act into law this morning.
+        </div>
+        <div class="brief-item">
+          <strong>🎵 Arts</strong>
+          Gazelle announces a free open-air concert in Savanna Square to celebrate the new film's premiere night.
+        </div>
+      </div>
+    </div>
+
+    <div class="col-divider"></div>
+
+    <!-- CENTER COLUMN -->
+    <div class="col">
+      <div class="section-label">Feature · Cover Story</div>
+      <div class="col-head large">'The Case That Nearly Broke the City' — An Exclusive with Judy & Nick</div>
+      <div class="byline">By Francine Fawn · Senior Reporter &nbsp;|&nbsp; Photography: ZPD Archive</div>
+
+      <div class="img-block">
+        <div class="img-placeholder" style="height:210px;">
+          🦊🐰
+        </div>
+        <div class="caption">Det. Nick Wilde and Officer Judy Hopps outside ZPD headquarters following the press conference. The pair declined to reveal details of the new investigation. <em>(ZPD Archive / The Zootopia Times)</em></div>
+      </div>
+
+      <div class="body-text">
+        <p class="drop-cap">It has been nearly a decade since Judy Hopps arrived at the Zootopia Police Department as its first rabbit officer, clutching a parking ticket book and an impossible dream. Today she sits across from us in a worn leather chair, detective badge gleaming, with her partner — the reformed con-fox Nick Wilde — perched on the armrest beside her, smirking in that inimitable way of his.</p>
+        <p>"The city keeps throwing surprises at us," Hopps says, her violet eyes bright. "Every time we think we've seen everything, something new walks through the precinct door."</p>
+        <p>That something new, sources close to the ZPD confirm, is a sprawling conspiracy involving a network of predator-prey alliances that have been secretly manipulating Zootopia's commodity markets. The Night Howler crisis of years past seems quaint by comparison.</p>
+        <p>"We can't say much," Wilde cuts in, straightening his tie — green, naturally. "Except that it goes high. Very high. Think penthouse-suite-in-the-Cliffside-Asylum high."</p>
+      </div>
+
+      <hr class="section-rule">
+
+      <div class="col-head" style="font-size:17px;margin-bottom:6px;">Director Confirms New Villain Is 'Unlike Anything Seen in Zootopia'</div>
+      <div class="byline">By Staff Wire · Entertainment</div>
+      <div class="body-text">
+        <p>Disney Animation confirmed that <em>Zootopia 2</em> introduces a villain whose motivations challenge the city's founding philosophy. "We wanted to write a character who genuinely believes they're saving Zootopia," director Byron Howard told reporters at a press junket held at Savanna Studios. "That's far scarier than pure evil."</p>
+        <p>The film's score, once again composed by Michael Giacchino, reportedly features a 90-piece orchestra with live recordings in three of the city's iconic climate districts.</p>
+      </div>
+
+      <div class="pull-quote" style="margin-top:16px;">
+        <p>"Anyone can be anything — but some anythings should be stopped."</p>
+        <cite>— Nick Wilde, ZPD Detective</cite>
+      </div>
+    </div>
+
+    <div class="col-divider"></div>
+
+    <!-- RIGHT COLUMN -->
+    <div class="col">
+      <div class="section-label">Opinion</div>
+      <div class="col-head">Why <em>Zootopia 2</em> Arrives at Exactly the Right Moment</div>
+      <div class="byline">Editorial Board</div>
+      <div class="body-text">
+        <p class="drop-cap">Ten years on from the original, the world — both ours and theirs — has grown more complicated. The naive optimism of "anyone can be anything" has been tested by economic friction between districts, rising housing costs in Tundratown, and the ongoing debate over Rainforest resource rights.</p>
+        <p>The sequel, by all accounts, does not flinch from these tensions. If the first film used predator-prey anxiety as a metaphor for real-world prejudice, the second appears to use systemic inequality — the kind baked into neighbourhoods and institutions — as its canvas.</p>
+        <p>Zootopia needs these stories as much as we do.</p>
+      </div>
+
+      <hr class="section-rule">
+
+      <div class="img-block">
+        <div class="img-placeholder" style="height:150px;">
+          🌆🦒🐘
+        </div>
+        <div class="caption">Savanna Central skyline at dusk. The district serves as the primary setting for the sequel's opening act. <em>(City Planning Dept.)</em></div>
+      </div>
+
+      <div class="col-head" style="margin-top:4px;">Bellwether Parole Hearing Draws Protesters</div>
+      <div class="byline">By Roberta Finch · Courts</div>
+      <div class="body-text">
+        <p>Hundreds of citizens gathered outside the Zootopia Correctional Facility on Tuesday as former Deputy Mayor Dawn Bellwether appeared before the parole board for the first time since her 2016 conviction.</p>
+        <p>The board granted no early release. Bellwether, now 44, addressed the media briefly: "I understand why the city cannot forgive yet. I am working on forgiving myself." The scene drew mixed reactions from the crowd outside.</p>
+      </div>
+
+      <div class="ad-box">
+        <span class="ad-icon">🌿</span>
+        <div class="ad-title">Mystic Springs Oasis</div>
+        <div class="ad-sub">Zootopia's Premier Wellness Retreat<br><em>All species welcome · No naturist required</em></div>
+        <div style="font-size:9px;color:var(--mid);margin-top:6px;text-transform:uppercase;letter-spacing:0.1em;">Book via Zoofari Travel · Est. 2012</div>
+      </div>
+
+      <div class="briefs-box" style="margin-top:14px;">
+        <div class="briefs-title">Sports Desk</div>
+        <div class="brief-item">
+          <strong>🏈 Zootopia Antelopes</strong>
+          The Antelopes clinch the Savanna Conference title after a 38–14 shutout of the Tundra Tusks last Sunday.
+        </div>
+        <div class="brief-item">
+          <strong>🏊 Aquatics</strong>
+          Otter siblings Trish & Dale set a new city record in the 4×100 relay at the Central Pool championships.
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end content-area -->
+
+  <div class="bottom-strip">
+    The Zootopia Times · "Mammal Owned, Mammal Operated" · All Species Welcome · © 2026 ZTimes Publishing Co. · Printed on recycled bamboo
+  </div>
+
+</div>
+
 </body>
 </html>
